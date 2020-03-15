@@ -7,7 +7,6 @@ function App() {
   return (
     <div className="App">
       <div id="main">
-        
         <CommentPage />
       </div>
     </div>
