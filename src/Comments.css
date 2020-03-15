@@ -1,0 +1,97 @@
+.comments {
+  width: 100vw;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  /* background: url('./images/comment-background.jpg'); */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  padding: 3rem 0;
+}
+
+.comments h1 {
+  font-size: 2rem;
+  color: black;
+}
+
+.comments button {
+  margin-bottom: 3rem;
+}
+
+button {
+width: 200px;
+background: white;
+padding: 10px 10px;
+font-weight: bold;
+}
+
+button:hover {
+animation: HoverAnimation;
+animation-duration: 1s;
+animation-fill-mode: forwards;
+cursor: pointer;
+}
+
+.comments button:focus {
+  background: white;
+}
+
+.comment-block {
+  width: 90vw;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+
+
+.blockquote {
+  /* background: #f9f9f9; */
+  border-left: 10px solid black;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  quotes: "\201C""\201D""\2018""\2019";
+  width: 15rem;
+  box-sizing: border-box;
+  transition: 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.blockquote:before {
+  color: black;
+  content: open-quote;
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.4em;
+}
+.blockquote p {
+  display: inline;
+  font-style: italic;
+  font-size: 1rem;
+  color: black;
+}
+
+.blockquote:hover {
+  box-shadow: 0 10px 70px rgba(126, 121, 121, 0.5);
+}
+
+.blockquote:nth-child(even) {
+    justify-self: flex-start;
+}
+
+.blockquote:nth-child(odd) {
+  justify-self: flex-end;
+}
+
+@media(min-width: 491px) {
+  .blockquote:nth-child(even) {
+      justify-self: baseline;
+  }
+
+  .blockquote:nth-child(odd) {
+    justify-self: baseline;
+}
+}

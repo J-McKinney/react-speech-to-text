@@ -1,11 +1,14 @@
 import React from "react";
 import "./App.css";
+import Comments from "./Comments";
 
 function App() {
   return (
-    <>
-      <h1>Hello</h1>
-    </>
+    <div className="App">
+      <div id="main">
+        <Comments />
+      </div>
+    </div>
   );
 }
 
