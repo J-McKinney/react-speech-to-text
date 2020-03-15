@@ -1,13 +1,13 @@
 import React from "react";
 import "./App.css";
-// import Comments from "./Comments";
-import CommentPage from "./CommentPage";
+import ReactSpeech from "./react-speech-recognition";
+// import CommentPage from "./CommentPage";
 
 function App() {
   return (
     <div className="App">
       <div id="main">
-        <CommentPage />
+        <ReactSpeech />
       </div>
     </div>
   );

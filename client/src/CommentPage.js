@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
+// import db from './config/fbConfig';
 import API from "./utils/API";
 
 class CommentPage extends Component {
@@ -14,13 +15,24 @@ class CommentPage extends Component {
     API.getComments()
       .then(res => this.setState({ comments: res.data }))
       .catch(err => console.log(err));
-  }
+  };
 
   render() {
     return (
-      <>
-        <h3>{console.log(this.state.comments[0])}</h3>
-      </>
+        <div className="comments">
+          <h1>Comment Section</h1>
+          {/*<button onClick={handleClick}>Click to speak</button>*/}
+          {/*<div className="comment-block">
+            {comments
+              ? comments.map(comment => (
+                  <div key={comment.title} className="blockquote">
+                    {" "}
+                    <p>{comment.title}</p>{" "}
+                  </div>
+                ))
+              : null}
+              </div>*/}
+        </div>
     );
   }
 }
