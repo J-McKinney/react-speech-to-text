@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-// import API from "./utils/API";
-import axios from "axios";
+import API from "./utils/API";
 
 class CommentPage extends Component {
   state = {
@@ -12,14 +11,15 @@ class CommentPage extends Component {
   }
 
   loadComments = () => {
-      axios.get("/api/comments")
-      console.log(this)
+    API.getComments()
+      .then(res => this.setState({ comments: res.data }))
+      .catch(err => console.log(err));
   }
 
   render() {
     return (
       <>
-        <h3>{this.state.comments}</h3>
+        <h3>{console.log(this.state.comments[0])}</h3>
       </>
     );
   }

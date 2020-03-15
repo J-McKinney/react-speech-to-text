@@ -10,15 +10,20 @@ mongoose.connect(
   }
 );
 
-const commentsSeed = [
+const commentSeed = [
   {
-    Comment: "Comment",
+    comment: "Comment",
+    date: new Date(Date.now())
+  },
+  {
+    comment: "Commenting Now",
     date: new Date(Date.now())
   }
 ];
 
-db.Comments.deleteMany({})
-  .then(() => db.Comments.collection.insertMany(commentsSeed))
+db.Comment
+  .remove({})
+  .then(() => db.Comment.collection.insertMany(commentSeed))
   .then(data => {
     console.log(data.result.n + " records inserted!");
     process.exit(0)
