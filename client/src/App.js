@@ -1,12 +1,14 @@
 import React from "react";
 import "./App.css";
-import Comments from "./Comments";
+// import Comments from "./Comments";
+import CommentPage from "./CommentPage";
 
 function App() {
   return (
     <div className="App">
       <div id="main">
-        <Comments />
+        
+        <CommentPage />
       </div>
     </div>
   );
