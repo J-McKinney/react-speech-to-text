@@ -43,6 +43,7 @@ const Dictaphone = ({
   recognition.onstart = function() {
     console.log('Speech recognition service has started');
   }
+  // console.log(finalTranscript)
 
   return (
     <div>
@@ -70,7 +71,7 @@ const Dictaphone = ({
       <br />
       <Jumbotron>
         <Container id="transcriptContainer">
-          <h5 id="transcriptField">{transcript/*switch this out with the word finalTranscript*/}</h5>
+          <h5 id="transcriptField">{finalTranscript/*switch this out with the word transcript*/}</h5>
         </Container>
       </Jumbotron>
     </div>
