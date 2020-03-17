@@ -1,7 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Jumbotron from "react-bootstrap/Jumbotron";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
 import SpeechRecognition from "react-speech-recognition";
-
 
 const propTypes = {
   // Props injected by SpeechRecognition
@@ -29,17 +33,33 @@ const Dictaphone = ({
 
   return (
     <div>
+    <hr />
+      <Container>
+        <Row>
+          <Col>
+            <Button id="startButton" onClick={startListening}>
+              Start Recording
+            </Button>
+          </Col>
+          <Col>
+            <Button id="stopButton" onClick={stopListening}>
+              Stop Recording
+            </Button>
+          </Col>
+          <Col>
+            <Button id="resetButton" onClick={resetTranscript}>
+              Reset Records
+            </Button>
+          </Col>
+        </Row>
+      </Container>
+      <hr />
       <br />
-      <button onClick={startListening}>Start Recording</button>
-      <br />
-      <br />
-      <button onClick={stopListening}>Stop Recording</button>
-      <br />
-      <br />
-      <button onClick={resetTranscript}>Reset Records</button>
-      <br />
-      {console.log(propTypes) /**/}
-      <span>{transcript}</span>
+      <Jumbotron>
+        <Container>
+          <span>{transcript}</span>
+        </Container>
+      </Jumbotron>
     </div>
   );
 };

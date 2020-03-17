@@ -1,7 +1,6 @@
 import React from "react";
 import "./App.css";
-import ReactSpeech from "./react-speech-recognition";
-// import CommentPage from "./CommentPage";
+import ReactSpeech from "./ReactSpeechRecognition";
 
 function App() {
   return (
