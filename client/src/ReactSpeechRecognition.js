@@ -5,6 +5,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
+import $ from "jquery";
 import SpeechRecognition from "react-speech-recognition";
 import "./ReactSpeechRecognition.css";
 
@@ -39,10 +40,10 @@ const Dictaphone = ({
   if (!browserSupportsSpeechRecognition) {
     return null;
   }
-  recognition.onstart = function () {
-    console.log('Speech recognition service has started');
-  }
-  // console.log(finalTranscript)
+  recognition.onstart = function() {
+    console.log("Speech recognition service has started");
+  };
+
 
   return (
     <div>
@@ -64,13 +65,30 @@ const Dictaphone = ({
               Reset Records
             </Button>
           </Col>
+          <Col>
+            <Button id="submitButton">
+              Submit Transcript
+            </Button>
+          </Col>
         </Row>
       </Container>
       <hr />
       <br />
       <Jumbotron id="transcriptJumbotron">
         <Container id="transcriptContainer">
-          <h5 id="transcriptField">{finalTranscript/*switch this out with the word transcript*/}</h5>
+          <h5 id="transcriptField">
+            {finalTranscript /*switch this out with the word transcript*/}
+          </h5>
+        </Container>
+      </Jumbotron>
+
+      <Button id="clear-all" onClick={resetTranscript}>
+        Clear All
+      </Button>
+
+      <Jumbotron id="submitFieldJumbotron">
+        <Container id="submitFieldContainer">
+          <h5 id="submitField"></h5>
         </Container>
       </Jumbotron>
     </div>

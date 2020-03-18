@@ -2,7 +2,7 @@ var express = require("express");
 var logger = require("morgan");
 var path = require("path");
 var mongojs = require("mongojs");
-var mongoose = require("mongoose");
+// var mongoose = require("mongoose");
 
 // Require all models
 // var db = require("./models");
@@ -18,12 +18,17 @@ app.use(logger("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // Make public a static folder
-if (process.env.NODE_ENV === "production") {
+
+// if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
-}
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(__dirname + "/client/build"));
-}
+// }
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static(__dirname + "/client/build"));
+// }
+
+// Database configuration
+var databaseUrl = "speech2text";
+var collections = ["sentences"];
 
 // Hook mongojs config to db variable
 var db = mongojs(databaseUrl, collections);
@@ -40,7 +45,7 @@ db.on("error", function (error) {
 // app.get("/", function (req, res) {
 //   res.sendFile(path.join(__dirname + "/public/html/index.html"));
 // });
-app.get("*", function (req, res) {
+app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });
 
