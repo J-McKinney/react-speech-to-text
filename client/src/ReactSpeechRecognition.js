@@ -48,7 +48,7 @@ const Dictaphone = ({
     <div>
       <hr />
       <Container id="buttonContainer">
-        <Row>
+        <Row id="buttonRow">
           <Col>
             <Button id="startButton" onClick={startListening}>
               Start Recording
@@ -68,7 +68,7 @@ const Dictaphone = ({
       </Container>
       <hr />
       <br />
-      <Jumbotron>
+      <Jumbotron id="transcriptJumbotron">
         <Container id="transcriptContainer">
           <h5 id="transcriptField">{finalTranscript/*switch this out with the word transcript*/}</h5>
         </Container>

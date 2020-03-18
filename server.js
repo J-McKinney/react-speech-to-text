@@ -1,11 +1,11 @@
 var express = require("express");
 var logger = require("morgan");
+var path = require("path");
+var mongojs = require("mongojs");
 var mongoose = require("mongoose");
 
-var PORT = 3001;
-
 // Require all models
-var db = require("./models");
+// var db = require("./models");
 
 // Initialize Express
 var app = express();
@@ -21,95 +21,173 @@ app.use(express.json());
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(__dirname + "/client/build"));
+}
 
-// Connect to the Mongo DB
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/speech2text", {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
-  useCreateIndex: true
+// Hook mongojs config to db variable
+var db = mongojs(databaseUrl, collections);
+
+// Log any mongojs errors to console
+db.on("error", function (error) {
+  console.log("Database Error:", error);
 });
-
-// When the server starts, create and save a new User document to the db
-// The "unique" rule in the User model's schema will prevent duplicate users from being added to the server
-db.User.create({ name: "User" })
-  .then(function(dbUser) {
-    console.log(dbUser);
-  })
-  .catch(function(err) {
-    console.log(err.message);
-  });
 
 // Routes
+// ======
 
-// Route for retrieving all Notes from the db
-app.get("/notes", function(req, res) {
-  // Find all Notes
-  db.Note.find({})
-    .then(function(dbNote) {
-      // If all Notes are successfully found, send them back to the client
-      res.json(dbNote);
-    })
-    .catch(function(err) {
-      // If an error occurs, send the error back to the client
-      res.json(err);
-    });
+// Simple index route
+// app.get("/", function (req, res) {
+//   res.sendFile(path.join(__dirname + "/public/html/index.html"));
+// });
+app.get("*", function (req, res) {
+  res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });
 
-// Route for retrieving all Users from the db
-app.get("/user", function(req, res) {
-  // Find all Users
-  db.User.find({})
-    .then(function(dbUser) {
-      // If all Users are successfully found, send them back to the client
-      res.json(dbUser);
-    })
-    .catch(function(err) {
-      // If an error occurs, send the error back to the client
-      res.json(err);
-    });
+// Handle form submission, save submission to mongo
+app.post("/submit", function (req, res) {
+  console.log(req.body);
+  // Insert the sentence into the sentences collection
+  db.sentences.insert(req.body, function (error, saved) {
+    // Log any errors
+    if (error) {
+      console.log(error);
+    }
+    else {
+      // Otherwise, send the note back to the browser
+      // This will fire off the success function of the ajax request
+      res.send(saved);
+    }
+  });
 });
 
-// Route for saving a new Note to the db and associating it with a User
-app.post("/submit", function(req, res) {
-  // Create a new Note in the db
-  db.Note.create(req.body)
-    .then(function(dbNote) {
-      // If a Note was created successfully, find one User (there's only one) and push the new Note's _id to the User's `notes` array
-      // { new: true } tells the query that we want it to return the updated User -- it returns the original by default
-      // Since our mongoose query returns a promise, we can chain another `.then` which receives the result of the query
-      return db.User.findOneAndUpdate(
-        {},
-        { $push: { notes: dbNote._id } },
-        { new: true }
-      );
-    })
-    .then(function(dbUser) {
-      // If the User was updated successfully, send it back to the client
-      res.json(dbUser);
-    })
-    .catch(function(err) {
-      // If an error occurs, send it back to the client
-      res.json(err);
-    });
+// Retrieve results from mongo
+app.get("/all", function (req, res) {
+  // Find all sentences in the sentences collection
+  db.sentences.find({}, function (error, found) {
+    // Log any errors
+    if (error) {
+      console.log(error);
+    }
+    else {
+      // Otherwise, send json of the notes back to user
+      // This will fire off the success function of the ajax request
+      res.json(found);
+    }
+  });
 });
 
-// Route to get all User's and populate them with their notes
-app.get("/populateduser", function(req, res) {
-  // Find all users
-  db.User.find({})
-    // Specify that we want to populate the retrieved users with any associated notes
-    .populate("notes")
-    .then(function(dbUser) {
-      // If able to successfully find and associate all Users and Notes, send them back to the client
-      res.json(dbUser);
-    })
-    .catch(function(err) {
-      // If an error occurs, send it back to the client
-      res.json(err);
-    });
+// Select just one note by an id
+app.get("/find/:id", function (req, res) {
+  // When searching by an id, the id needs to be passed in
+  // as (mongojs.ObjectId(IdYouWantToFind))
+
+  // Find just one result in the sentences collection
+  db.sentences.findOne(
+    {
+      // Using the id in the url
+      _id: mongojs.ObjectId(req.params.id)
+    },
+    function (error, found) {
+      // log any errors
+      if (error) {
+        console.log(error);
+        res.send(error);
+      }
+      else {
+        // Otherwise, send the sentence to the browser
+        // This will fire off the success function of the ajax request
+        console.log(found);
+        res.send(found);
+      }
+    }
+  );
 });
+
+// Update just one sentence by an id
+app.post("/update/:id", function (req, res) {
+  // When searching by an id, the id needs to be passed in
+  // as (mongojs.ObjectId(IdYouWantToFind))
+
+  // Update the sentence that matches the object id
+  db.sentences.update(
+    {
+      _id: mongojs.ObjectId(req.params.id)
+    },
+    {
+      // Set the sentence and modified parameters
+      // sent in the req body.
+      $set: {
+        sentence: req.body.sentence,
+        modified: Date.now()
+      }
+    },
+    function (error, edited) {
+      // Log any errors from mongojs
+      if (error) {
+        console.log(error);
+        res.send(error);
+      }
+      else {
+        // Otherwise, send the mongojs response to the browser
+        // This will fire off the success function of the ajax request
+        // console.log(edited);
+        res.send(edited);
+      }
+    }
+  );
+
+});
+
+// Delete One from the DB
+app.get("/delete/:id", function (req, res) {
+  // Remove a sentence using the objectID
+  db.sentences.remove(
+    {
+      _id: mongojs.ObjectID(req.params.id)
+    },
+    function (error, removed) {
+      // Log any errors from mongojs
+      if (error) {
+        console.log(error);
+        res.send(error);
+      }
+      else {
+        // Otherwise, send the mongojs response to the browser
+        // This will fire off the success function of the ajax request
+        console.log(removed);
+        res.send(removed);
+      }
+    }
+  );
+});
+
+// Clear the DB
+app.get("/clearall", function (req, res) {
+  // Remove every sentence from the sentences collection
+  db.sentences.remove({}, function (error, response) {
+    // Log any errors to the console
+    if (error) {
+      console.log(error);
+      res.send(error);
+    }
+    else {
+      // Otherwise, send the mongojs response to the browser
+      // This will fire off the success function of the ajax request
+      console.log(response);
+      res.send(response);
+    }
+  });
+});
+
+// Connect to the Mongo DB
+// mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/speech2text", {
+//   useUnifiedTopology: true,
+//   useNewUrlParser: true,
+//   useCreateIndex: true
+// });
 
 // Start the server
-app.listen(PORT, function() {
-  console.log("App running on port " + PORT + "!");
+app.listen(3000, function () {
+  console.log("App running on port 3000!");
 });
