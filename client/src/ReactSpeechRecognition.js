@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Container from "react-bootstrap/Container";
@@ -39,8 +39,7 @@ const Dictaphone = ({
   if (!browserSupportsSpeechRecognition) {
     return null;
   }
-
-  recognition.onstart = function() {
+  recognition.onstart = function () {
     console.log('Speech recognition service has started');
   }
   // console.log(finalTranscript)
