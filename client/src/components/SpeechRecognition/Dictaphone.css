@@ -1,0 +1,7 @@
+#buttonContainer,
+#submitRow,
+#transcriptContainer,
+#finalTranscriptContainer {
+    text-align: center;
+    justify-content: center;
+}
