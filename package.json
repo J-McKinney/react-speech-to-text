@@ -17,18 +17,12 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^4.1.0",
-    "nodemon": "^1.19.4"
+    "nodemon": "^1.18.7"
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "dotenv": "^8.2.0",
     "express": "^4.16.3",
-    "if-env": "^1.0.4",
-    "jquery": "^3.4.1",
-    "mongojs": "^3.1.0",
     "mongoose": "^5.3.16",
-    "morgan": "^1.9.1",
-    "path": "^0.12.7",
-    "routes": "^2.1.0"
+    "if-env": "^1.0.4"
   }
 }

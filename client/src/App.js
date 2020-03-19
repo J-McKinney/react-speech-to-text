@@ -1,13 +1,12 @@
 import React from "react";
-import "./App.css";
-import ReactSpeech from "./ReactSpeechRecognition";
+import Speeches from "./pages/Speeches";
+import Nav from "./components/Nav";
 
 function App() {
   return (
-    <div className="App">
-      <div id="main">
-        <ReactSpeech />
-      </div>
+    <div>
+      <Nav />
+      <Speeches />
     </div>
   );
 }
