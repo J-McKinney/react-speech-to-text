@@ -5,6 +5,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
+// import API from "../../utils/API";
 import SpeechRecognition from "react-speech-recognition";
 import "./Dictaphone.css";
 
@@ -87,7 +88,7 @@ const Dictaphone = ({
 
       <Jumbotron id="submitFieldJumbotron">
         <Container id="submitFieldContainer">
-          <h5 id="submitField"></h5>
+          <h5 id="submitField">{finalTranscript}</h5>
         </Container>
       </Jumbotron>
     </div>

@@ -3,7 +3,7 @@ import Jumbotron from "../../components/Jumbotron";
 import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
 import { Input, FormBtn } from "../../components/Form";
-import Dictaphone from "../../components/SpeechRecognition/Dictaphone";
+// import Dictaphone from "../../components/SpeechRecognition/Dictaphone";
 
 class Speeches extends Component {
   // Setting our component's initial state
@@ -12,22 +12,21 @@ class Speeches extends Component {
     sentence: ""
   };
 
-  // When the component mounts, load all books and save them to this.state.books
+  // When the component mounts, load all sentences and save them to this.state.sentence
   componentDidMount() {
     this.loadSpeeches();
-    console.log(Dictaphone)
   }
 
-  // Loads all books  and sets them to this.state.books
+  // Loads all sentences and sets them to this.state.sentence
   loadSpeeches = () => {
     API.getSpeeches()
       .then(res =>
-        this.setState({ speech: res.data, sentence: ""})
+        this.setState({ speeches: res.data, sentence: ""})
       )
       .catch(err => console.log(err));
   };
 
-  // Deletes a book from the database with a given id, then reloads books from the db
+  // Deletes a sentence from the database with a given id, then reloads sentence from the db
   deleteSpeech = id => {
     API.deleteSpeech(id)
       .then(res => this.loadSpeeches())
@@ -42,8 +41,8 @@ class Speeches extends Component {
     });
   };
 
-  // When the form is submitted, use the API.saveBook method to save the book data
-  // Then reload books from the database
+  // When the form is submitted, use the API.savespeeches method to save the sentence data
+  // Then reload sentence from the database
   handleFormSubmit = event => {
     event.preventDefault();
     if (this.state.sentence) {
@@ -79,9 +78,9 @@ class Speeches extends Component {
             </form>
           </Col>
 
-          <Col size="md-6">
+          {/*<Col size="md-6">
           <Dictaphone />
-          </Col>
+          </Col>*/}
           
         </Row>
       </Container>
