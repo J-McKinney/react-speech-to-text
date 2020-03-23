@@ -1,1 +1,1 @@
-export { default } from "./Dictaphone";
+export { default } from "./Dictaphone.js";
